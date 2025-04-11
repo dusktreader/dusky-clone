@@ -1,8 +1,7 @@
-from pytest import CaptureFixture
+from fastapi import status
+from fastapi.testclient import TestClient
 
-from {{module_name}}.main import main
 
-
-def test_raise(capsys: CaptureFixture[str]):
-    main()
-    assert "Dusktreader" in capsys.readouterr().out
+def test_health_check(client: TestClient):
+    response = client.get("/health")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
